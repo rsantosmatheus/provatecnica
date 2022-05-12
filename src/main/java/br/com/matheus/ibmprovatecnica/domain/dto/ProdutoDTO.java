@@ -8,7 +8,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ProdutoDTO {
-    private String nome;
+
+    private String produto;
     private String variedade;
     private String pais;
     private String categoria;

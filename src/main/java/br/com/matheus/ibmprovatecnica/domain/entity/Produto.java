@@ -1,27 +1,23 @@
 package br.com.matheus.ibmprovatecnica.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Produto {
 
-        private String nome;
-        private String variedade;
-        private String pais;
-        private String categoria;
-        private Integer safra;
-        private BigDecimal preco;
-
-    public Produto(String nome, String variedade, String pais, String categoria, Integer safra, BigDecimal preco) {
-        this.nome = nome;
-        this.variedade = variedade;
-        this.pais = pais;
-        this.categoria = categoria;
-        this.safra = safra;
-        this.preco = preco;
-    }
+    private String codigo;
+    private String produto;
+    private String variedade;
+    private String pais;
+    private String categoria;
+    private Integer safra;
+    private BigDecimal preco;
 }
