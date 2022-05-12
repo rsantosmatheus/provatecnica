@@ -1,6 +1,7 @@
 package br.com.matheus.ibmprovatecnica.controller;
 
 
+import br.com.matheus.ibmprovatecnica.domain.dto.ClienteDTO;
 import br.com.matheus.ibmprovatecnica.domain.dto.CompraDTO;
 import br.com.matheus.ibmprovatecnica.service.IbmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +22,10 @@ public class IbmController {
     public List<CompraDTO> getListaDeComprasOrdemDecrescente() {
         return ibmService.getListaDeComprasOrdemDecrescente();
     }
+
+    @GetMapping("/clientes-fieis")
+    public List<ClienteDTO> getTresMaioresCompradores(){
+        return ibmService.getTresMaioresCompradores();
+    }
+
 }

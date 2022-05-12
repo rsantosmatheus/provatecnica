@@ -7,4 +7,8 @@ import java.util.List;
 public interface ComprasRepository {
 
     List<Compra> findAllComprasOrdenada();
+
+    List<Compra> findTresMaioresCompras();
+
+    List<String> findCpfTresMaioresCompradores();
 }

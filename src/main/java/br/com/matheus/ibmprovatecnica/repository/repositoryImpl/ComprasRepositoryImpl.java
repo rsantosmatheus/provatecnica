@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +29,7 @@ public class ComprasRepositoryImpl implements ComprasRepository {
             ObjectMapper mapper = new ObjectMapper();
             File jsonfie = new ClassPathResource("compras.json").getFile();
 
-            return mapper.readValue(jsonfie, new TypeReference<List<Compra>>() {
-            });
+            return mapper.readValue(jsonfie, new TypeReference<List<Compra>>() {});
 
         } catch (IOException ex) {
             throw ex;
@@ -39,5 +40,19 @@ public class ComprasRepositoryImpl implements ComprasRepository {
     public List<Compra> findAllComprasOrdenada() {
         return compras.stream().sorted(Comparator.comparing(Compra::getValorTotal)
                 .reversed()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Compra> findTresMaioresCompras(){
+        return findAllComprasOrdenada().subList(0,3);
+    }
+
+    @Override
+    public List<String> findCpfTresMaioresCompradores(){
+        List<String> tresMaioresCompradores = new ArrayList<>();
+
+        findTresMaioresCompras().forEach(compra -> tresMaioresCompradores.add(compra.getCliente()));
+
+        return tresMaioresCompradores;
     }
 }
