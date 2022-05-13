@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,7 +28,8 @@ public class ComprasRepositoryImpl implements ComprasRepository {
             ObjectMapper mapper = new ObjectMapper();
             File jsonfie = new ClassPathResource("compras.json").getFile();
 
-            return mapper.readValue(jsonfie, new TypeReference<List<Compra>>() {});
+            return mapper.readValue(jsonfie, new TypeReference<List<Compra>>() {
+            });
 
         } catch (IOException ex) {
             throw ex;
@@ -43,12 +43,29 @@ public class ComprasRepositoryImpl implements ComprasRepository {
     }
 
     @Override
-    public List<Compra> findTresMaioresCompras(){
-        return findAllComprasOrdenada().subList(0,3);
+    public Compra findMaiorCompraDoAno(Integer ano) {
+        List<Compra> comprasAno = new ArrayList<>();
+
+        compras.forEach(compra -> {
+            LocalDate localDate = compra.getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (ano.equals(localDate.getYear())) {
+                comprasAno.add(compra);
+            }
+        });
+
+        List<Compra> comprasAnoOrdenada = comprasAno.stream().sorted(Comparator.comparing(Compra::getValorTotal).reversed()).collect(Collectors.toList());
+
+        return comprasAnoOrdenada.stream().findFirst().orElseThrow();
+
     }
 
     @Override
-    public List<String> findCpfTresMaioresCompradores(){
+    public List<Compra> findTresMaioresCompras() {
+        return findAllComprasOrdenada().subList(0, 3);
+    }
+
+    @Override
+    public List<String> findCpfTresMaioresCompradores() {
         List<String> tresMaioresCompradores = new ArrayList<>();
 
         findTresMaioresCompras().forEach(compra -> tresMaioresCompradores.add(compra.getCliente()));

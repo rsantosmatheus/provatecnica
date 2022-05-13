@@ -31,8 +31,16 @@ public class IbmServiceImpl implements IbmService {
 
     @Override
     public List<CompraDTO> getListaDeComprasOrdemDecrescente() {
+        List<Compra> comprasOrdenadas = comprasRepository.findAllComprasOrdenada();
 
-        return comprasMapper.comprasToDTO(comprasRepository.findAllComprasOrdenada());
+        return comprasMapper.comprasToDTO(comprasOrdenadas);
+    }
+
+    @Override
+    public CompraDTO getMaiorCompraDoAno(Integer ano){
+        Compra maiorCompraDoAno = comprasRepository.findMaiorCompraDoAno(ano);
+
+        return comprasMapper.compraToDTO(maiorCompraDoAno);
     }
 
     @Override

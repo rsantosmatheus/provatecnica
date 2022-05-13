@@ -16,7 +16,7 @@ import java.util.List;
 public class Compra {
 
     private String codigo;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date data;
     private String cliente;
     private List<Produto> itens;

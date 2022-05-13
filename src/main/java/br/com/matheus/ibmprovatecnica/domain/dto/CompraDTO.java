@@ -1,5 +1,6 @@
 package br.com.matheus.ibmprovatecnica.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class CompraDTO {
 
     private String codigo;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date data;
     private String cliente;
     private List<ProdutoDTO> itens;

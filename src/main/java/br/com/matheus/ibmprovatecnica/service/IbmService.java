@@ -9,5 +9,7 @@ public interface IbmService {
 
     List<CompraDTO> getListaDeComprasOrdemDecrescente();
 
+    CompraDTO getMaiorCompraDoAno(Integer ano);
+
     List<ClienteDTO> getTresMaioresCompradores();
 }
