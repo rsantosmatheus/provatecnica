@@ -2,8 +2,10 @@ package br.com.matheus.ibmprovatecnica.repository.repositoryImpl;
 
 import br.com.matheus.ibmprovatecnica.domain.entity.Cliente;
 import br.com.matheus.ibmprovatecnica.repository.ClientesRepository;
+import br.com.matheus.ibmprovatecnica.utils.TratamentoCPF;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,9 @@ public class ClientesRepositoryImpl implements ClientesRepository {
 
     private static List<Cliente> clientes;
 
+    @Autowired
+    private TratamentoCPF tratamentoCPF;
+
     public ClientesRepositoryImpl() throws IOException {
         clientes = mappingJsonFileClientes();
     }
@@ -26,7 +31,8 @@ public class ClientesRepositoryImpl implements ClientesRepository {
             ObjectMapper mapper = new ObjectMapper();
 
             File jsonfie = new ClassPathResource("clientes.json").getFile();
-            return mapper.readValue(jsonfie, new TypeReference<List<Cliente>>() {});
+            return mapper.readValue(jsonfie, new TypeReference<List<Cliente>>() {
+            });
 
         } catch (IOException ex) {
             throw ex;
@@ -34,20 +40,18 @@ public class ClientesRepositoryImpl implements ClientesRepository {
     }
 
     /*Nos arquivos os campos referentes ao cpf do cliente estavam diferentes tanto na quantidade de zeros
-    * quanto nos caracteres especiais. Para isso, adicionei alguns tratamentos, removendo caracteres especiais
-    * e considerando apenas os ultimos 11 caracteres da String*/
+     * quanto nos caracteres especiais. Para isso, adicionei alguns tratamentos, removendo caracteres especiais
+     * e considerando apenas os ultimos 11 caracteres da String*/
     @Override
-    public Cliente findClienteByCpf(String cpf){
+    public Cliente findClienteByCpf(String cpf) {
         return clientes.stream().filter(cliente ->
-                cpf.substring(cpf.length()-11)
-                        .replaceAll("[^a-zA-Z0-9]", "")
-                        .equals(cliente.getCpf().substring(cliente.getCpf().length()-11)
-                                .replaceAll("[^a-zA-Z0-9]", "")))
+                        tratamentoCPF.trataCPF(cpf)
+                                .equals(tratamentoCPF.trataCPF(cliente.getCpf())))
                 .findAny().orElse(null);
     }
 
     @Override
-    public List<Cliente> findClientesByCpfList (List<String> clientesCPF){
+    public List<Cliente> findClientesByCpfList(List<String> clientesCPF) {
         List<Cliente> clientes = new ArrayList<>();
 
         clientesCPF.forEach(cpfCliente -> clientes.add(findClienteByCpf(cpfCliente)));

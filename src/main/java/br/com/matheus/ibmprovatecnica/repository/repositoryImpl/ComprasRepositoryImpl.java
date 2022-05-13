@@ -1,9 +1,12 @@
 package br.com.matheus.ibmprovatecnica.repository.repositoryImpl;
 
 import br.com.matheus.ibmprovatecnica.domain.entity.Compra;
+import br.com.matheus.ibmprovatecnica.domain.entity.Produto;
 import br.com.matheus.ibmprovatecnica.repository.ComprasRepository;
+import br.com.matheus.ibmprovatecnica.utils.TratamentoCPF;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,9 @@ import java.util.stream.Collectors;
 public class ComprasRepositoryImpl implements ComprasRepository {
 
     private static List<Compra> compras;
+
+    @Autowired
+    private TratamentoCPF tratamentoCPF;
 
     public ComprasRepositoryImpl() throws IOException {
         compras = mappingJsonFileCompras();
@@ -71,5 +77,23 @@ public class ComprasRepositoryImpl implements ComprasRepository {
         findTresMaioresCompras().forEach(compra -> tresMaioresCompradores.add(compra.getCliente()));
 
         return tresMaioresCompradores;
+    }
+
+    @Override
+    public Compra findCompraByCliente(String cliente) {
+
+        Compra compraCliente = compras.stream().filter(compra ->
+                tratamentoCPF.trataCPF(compra.getCliente())
+                        .equals(tratamentoCPF.trataCPF(cliente))).findFirst().orElse(null);
+
+        return compraCliente;
+    }
+
+    @Override
+    public List<Produto> findProdutosByCompra(Compra compra) {
+        List<Produto> produtos = new ArrayList<>();
+
+        compra.getItens().forEach(item -> produtos.add(item));
+        return produtos;
     }
 }

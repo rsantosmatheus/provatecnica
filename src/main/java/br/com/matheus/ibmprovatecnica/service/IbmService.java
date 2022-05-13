@@ -12,4 +12,6 @@ public interface IbmService {
     CompraDTO getMaiorCompraDoAno(Integer ano);
 
     List<ClienteDTO> getTresMaioresCompradores();
+
+    String getRecomendacaoPorTipoECliente(String cliente, String tipo);
 }

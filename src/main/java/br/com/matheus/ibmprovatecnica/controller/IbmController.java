@@ -3,7 +3,6 @@ package br.com.matheus.ibmprovatecnica.controller;
 
 import br.com.matheus.ibmprovatecnica.domain.dto.ClienteDTO;
 import br.com.matheus.ibmprovatecnica.domain.dto.CompraDTO;
-import br.com.matheus.ibmprovatecnica.domain.entity.Compra;
 import br.com.matheus.ibmprovatecnica.service.IbmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +25,18 @@ public class IbmController {
     }
 
     @GetMapping("/maior-compra/{ano}")
-    public CompraDTO getMaiorCompraDoAno(@PathVariable("ano") Integer ano){
+    public CompraDTO getMaiorCompraDoAno(@PathVariable("ano") Integer ano) {
         return ibmService.getMaiorCompraDoAno(ano);
     }
 
     @GetMapping("/clientes-fieis")
-    public List<ClienteDTO> getTresMaioresCompradores(){
+    public List<ClienteDTO> getTresMaioresCompradores() {
         return ibmService.getTresMaioresCompradores();
+    }
+
+    @GetMapping("/recomendacao/{cliente}/{tipo}")
+    public String getRecomendacaoPorTipoECliente(@PathVariable("cliente") String cliente, @PathVariable("tipo") String tipo) {
+        return ibmService.getRecomendacaoPorTipoECliente(cliente, tipo);
     }
 
 }

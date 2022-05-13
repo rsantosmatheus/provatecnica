@@ -8,5 +8,5 @@ public interface ClientesRepository {
 
     Cliente findClienteByCpf(String cpf);
 
-    List<Cliente> findClientesByCpfList (List<String> clientesCPF);
+    List<Cliente> findClientesByCpfList(List<String> clientesCPF);
 }

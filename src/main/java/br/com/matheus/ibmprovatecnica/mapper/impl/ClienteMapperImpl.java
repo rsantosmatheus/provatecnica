@@ -12,7 +12,7 @@ import java.util.List;
 public class ClienteMapperImpl implements ClienteMapper {
 
     @Override
-    public List<ClienteDTO> clientesToDTO(List<Cliente> clientes){
+    public List<ClienteDTO> clientesToDTO(List<Cliente> clientes) {
         List<ClienteDTO> clientesDTO = new ArrayList<>();
 
         clientes.forEach(cliente -> clientesDTO.add(clienteToDTO(cliente)));
@@ -21,7 +21,7 @@ public class ClienteMapperImpl implements ClienteMapper {
     }
 
     @Override
-    public ClienteDTO clienteToDTO(Cliente cliente){
+    public ClienteDTO clienteToDTO(Cliente cliente) {
         ClienteDTO clienteDTO = new ClienteDTO();
 
         clienteDTO.setCpf(cliente.getCpf());
